@@ -1,6 +1,7 @@
 <template>
   <div>
     <u-list :items="items"></u-list>
+    <div class="x-bottom" v-intersect="{ handler: fetchNext }"></div>
   </div>
 </template>
 
@@ -19,14 +20,24 @@ export default {
   components: {
     UList,
   },
-  created() {
-    const { type } = this;
-    this.fetchData({ type });
+  mounted() {
+    this.fetchNext();
   },
   methods: {
     ...mapActions({
       fetchData: "FETCH_LIST_DATA",
     }),
+    fetchNext() {
+      const { type } = this;
+      this.fetchData({ type });
+    }
   },
 };
 </script>
+<style scoped>
+.x-bottom {
+  width: 100%;
+  height: 40px;
+  background-color: #333;
+}
+</style>
