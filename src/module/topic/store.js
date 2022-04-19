@@ -9,18 +9,18 @@ export const LIST_TYPE = {
 export const store = {
   namespaced: true,
   state: {
-    activeType: LIST_TYPE.TOP,
+    activeType: LIST_TYPE.HOT,
     top: {
       items: [],
       pageInfo: {},
     },
     hot: {
       items: [],
-      pogeInfo: {},
+      pageInfo: {},
     },
     new: {
       items: [],
-      pogeInfo: {},
+      pageInfo: {},
     },
   },
   mutations: {
@@ -37,6 +37,7 @@ export const store = {
   actions: {
     FETCH_LIST_DATA: ({ commit, state }, { type }) => {
       commit("SET_ACTIVE_TYPE", { type });
+      console.log(state[type]);
       const after = state[type].pageInfo.endCursor || 0;
 
       return fetchItems({

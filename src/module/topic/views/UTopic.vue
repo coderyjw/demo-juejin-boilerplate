@@ -23,6 +23,11 @@ export default {
   mounted() {
     this.fetchNext();
   },
+  watch: {
+    type(type) {
+      this.fetchData({ type });
+    }
+  },
   methods: {
     ...mapActions({
       fetchData: "FETCH_LIST_DATA",
