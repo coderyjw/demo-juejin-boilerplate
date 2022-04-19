@@ -1,17 +1,34 @@
 <template>
   <div id="app">
-    <div class="m-top">
+    <div class="m-top" :style="{ backgroundColor: theme.primary }">
       <router-link
         class="m-link"
+        :style="{
+          backgroundColor:
+            $route.name === nav.path ? theme.highlight : theme.primary,
+        }"
         v-for="nav in navs"
         :key="nav.path"
         :to="nav.path"
-        >{{ nav.path }}</router-link
+        >{{ langType === "zh" ? nav.name : nav.path }}</router-link
       >
     </div>
     <div class="m-content">
       <router-view></router-view>
       <!-- <u-topic type="top"></u-topic> -->
+    </div>
+
+    <div class="m-side">
+      <div>
+        主题切换：
+        <button @click="themeType = 'red'">红</button>
+        <button @click="themeType = 'blue'">蓝</button>
+      </div>
+      <div>
+        语言切换：
+        <button @click="langType = 'zh'">汉</button>
+        <button @click="langType = 'en'">英</button>
+      </div>
     </div>
   </div>
 </template>
@@ -19,12 +36,27 @@
 <script>
 import UTopic from "./module/topic/views/UTopic.vue";
 import { LIST_TYPE } from "./module/topic/store";
+import config from "./config/config";
 
 export default {
   components: {
     UTopic,
   },
+  data() {
+    return {
+      themeType: "blue",
+      langType: "zh",
+    };
+  },
+  provide() {
+    return {
+      theme: this.theme,
+    };
+  },
   computed: {
+    theme() {
+      return config.get("theme")[this.themeType];
+    },
     navs() {
       return [
         {
@@ -68,6 +100,14 @@ a {
   background: #007fff;
 }
 
+.m-content {
+  width: 720px;
+  border: 1px solid #eee;
+  background: #fff;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
 .m-link {
   display: inline-block;
   color: #fff;
@@ -81,11 +121,10 @@ a {
   background: #00a6ff;
 }
 
-.m-content {
-  width: 960px;
-  border: 1px solid #eee;
-  background: #fff;
-  margin: 20px auto;
-  padding: 0 20px;
+.m-side {
+  position: fixed;
+  left: 65%;
+  margin-left: 220px;
+  top: 100px;
 }
 </style>

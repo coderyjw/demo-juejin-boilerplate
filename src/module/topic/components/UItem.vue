@@ -1,5 +1,5 @@
 <template>
-  <a class="item" :href="node.originalUrl">
+  <a class="item" :href="node.originalUrl" :style="{ borderColor: theme.primary }">
     <div class="title">{{ article.title }}</div>
     <div class="tags" v-if="hasTag">
       #
@@ -17,6 +17,7 @@ export default {
       required: true,
     },
   },
+  inject: ["theme"],
   computed: {
     article() {
       return this.node.item_info.article_info;
